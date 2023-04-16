@@ -1,12 +1,22 @@
-import Link from 'next/link';
+import React from 'react';
+import fs from 'fs';
+import path from 'path';
 
-export default function FirstPost() {
-	return (
-	  <> 
-	    <h1>Yunseo's Workout Diary</h1>
-          <h2>
-            <Link href="/">Back to home</Link>
-          </h2>
-        </>
-	);
+const IndexPage = ({ htmlContent }) => {
+  return (
+    <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+  );
+};
+
+export async function getStaticProps() {
+  const filePath = path.join(process.cwd(), 'public', 'index.html');
+  const htmlContent = fs.readFileSync(filePath, 'utf8');
+
+  return {
+    props: {
+      htmlContent,
+    },
+  };
 }
+
+export default IndexPage;
